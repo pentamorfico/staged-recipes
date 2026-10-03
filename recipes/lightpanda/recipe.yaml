@@ -43,28 +43,29 @@ build:
     binary_relocation: false
 
 requirements:
+  build:
+    - if: osx
+      then: ${{ stdlib("c") }}
   run:
     - if: linux
       then: __glibc >=2.35
-    - if: osx and x86_64
-      then: __osx >=13.0
-    - if: osx and arm64
-      then: __osx >=14.0
 
 tests:
+  - package_contents:
+      bin:
+        - lightpanda
   - script:
-      - test -x "${PREFIX}/bin/lightpanda"
       - lightpanda version | grep -F "${{ version }}"
 
 about:
   homepage: https://lightpanda.io
+  license: AGPL-3.0-only
+  license_file: LICENSE
   summary: Headless browser built for automation and AI agents
   description: |
     Lightpanda is an open-source headless browser written in Zig for web
     automation, scraping, and AI agents. It provides JavaScript execution,
-    browser APIs, CDP, WebDriver BiDi, and a native MCP server.
-  license: AGPL-3.0-only
-  license_file: LICENSE
+    browser APIs, CDP, WebDriver, and a native MCP server.
   documentation: https://lightpanda.io/docs
   repository: https://github.com/lightpanda-io/browser
 
